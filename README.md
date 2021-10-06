@@ -29,7 +29,7 @@ In this case the two approaches are similar since no posting or modification of 
 /service/datasetId/contact
 /service/datasetId/license
  
-	The results should be returned as plain text or JSON (for this example we will not use a full schema such as DataCite but only the above information)
+The results should be returned as plain text or JSON (for this example we will not use a full schema such as DataCite but only the above information)
 
 ## Possible tools for building the Web API
 Java servlets are the traditional way, deployed on a servlet container such as Tomcat or Jetty. We lack the expertise to develop and deploy such a solution.
@@ -41,6 +41,7 @@ Fast, asynchronous IO, etc.
 
 
 The tools listed all have large user bases, ensuring long term support. 
-For this project we selected the Node.js approach as it provides good performance and allows easy standalone testing during development. 
+For this project we selected the Node.js approach as it provides good performance and allows easy standalone testing during development, whereas Flask and CherryPy should preferraby run behind a proxy (Apache or Nginx).
+
 
 
