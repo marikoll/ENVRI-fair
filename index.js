@@ -20,7 +20,8 @@ var jsonObj=JSON.parse(xmlParser.toJson(xmlData));
 // The web request handler
 var app = new express();
 
-app.get('/data/author', function(req,res){
+// 
+app.get('/api/v1/:datasetId/author', function(req,res){
     res.format({
         text: () => {
             res.send(jsonObj["eml:eml"]["dataset"]["creator"]["individualName"]["givenName"] + " " +
@@ -28,6 +29,18 @@ app.get('/data/author', function(req,res){
         },
         json: () => {
             res.send(jsonObj["eml:eml"]["dataset"]["creator"]["individualName"]);
+        }
+    });
+});
+
+// just an example
+app.get('/api/v1/:datasetId/time', function(req,res){
+    res.format({
+        text: () => {
+            res.send("You asked for dataset id " + req.params["datasetId"] +". Time is 0000-00-00");
+        },
+        json: () => {
+            res.send({ "datasetId": req.params["datasetId"] , "date": "0000-00-00" });
         }
     });
 });
