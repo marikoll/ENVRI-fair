@@ -4,7 +4,7 @@ const port = 3000;
 
 // 
 var fs     = require('fs');
-var parser = require("xml2json");
+var xmlParser = require("xml2json");
 var express = require("express");
 
 // In practice this would connect to a database.
@@ -14,14 +14,23 @@ let filename = __dirname+'/eml_aegean_plychaetes.xml';
 console.log(filename);
 const xmlData = fs.readFileSync(filename);
 // Parse to JSON object
-var jsonObj=JSON.parse(parser.toJson(xmlData));
-// console.dir(jsonObj);
+var jsonObj=JSON.parse(xmlParser.toJson(xmlData));
 
-var authorJson=jsonObj["eml:eml"]["dataset"]["creator"]["individualName"];
-var authorPlaintext=authorJson["givenName"] + " " + authorJson["surName"];
-console.log(authorJson);
-console.log(authorPlaintext);
 
 // The web request handler
-// var app = new express();
-// app.listen(port, () => console.log(`Hello world app listening on port ${port}!`));
+var app = new express();
+
+app.get('/data/author', function(req,res){
+    res.format({
+        text: () => {
+            res.send(jsonObj["eml:eml"]["dataset"]["creator"]["individualName"]["givenName"] + " " +
+            jsonObj["eml:eml"]["dataset"]["creator"]["individualName"]["surName"]);
+        },
+        json: () => {
+            res.send(jsonObj["eml:eml"]["dataset"]["creator"]["individualName"]);
+        }
+    });
+});
+
+
+app.listen(port, () => console.log(`FAIR app listening on port ${port}!`));
