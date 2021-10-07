@@ -33,7 +33,6 @@ const xmlParser = require("xml2json");
 const express = require("express");
 const rateLimit = require("express-rate-limit");
 const helmet = require('helmet');
-const jwt = require("jsonwebtoken");
 
 // In practice this would connect to a database.
 // e.g. MongoDB that stores JSON
