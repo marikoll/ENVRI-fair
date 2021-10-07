@@ -76,7 +76,84 @@ should preferraby run behind a proxy (Apache or Nginx).
 # Deployment
 
 ## Dependencies of the app
-- express:             npm install --save express
-- express-rate-limit   npm install --save express-rate-limit
-- helmet:              npm install --save helmet
-- xml2json             npm install --save xml2json
+
+* Install the following dependencies (locally: npm install --save <module>)
+TODO manage with yarn
+- express
+- express-rate-limit
+- helmet
+- xml2json
+- winston
+
+* Optionally install nodemon for easy testing and debugging.
+
+
+## Package and install
+* TODO For easy install an npm package should be created eventually
+
+# Test examples
+
+One example per method and supported content negotiation type follows here.
+
+Note, search per experiment ID is not implemented in this simple
+demo. Therefore the ID "12345" is arbitrarily used. This is not used
+by the webapp but could be logged.
+
+It can be seen that the default profile is plain text.
+TODO: Check if this should be changed to JSON.
+
+## Author
+
+### Default
+    curl http://localhost:3000/api/v1/12345/author
+
+    Christos Arvanitidis⏎
+
+### Plain text 
+    curl -H "Accept: text/plain" http://localhost:3000/api/v1/12345/author
+
+    Christos Arvanitidis⏎
+
+
+### JSON
+    curl -H "Accept: application/json" http://localhost:3000/api/v1/12345/author
+
+    {"givenName":"Christos","surName":"Arvanitidis"}
+
+
+## Time
+
+### Default
+    curl http://localhost:3000/api/v1/12345/time
+    
+	Time span of dataset: Begin 1976, End 1994⏎
+
+### Plain text
+     curl -H "Accept: text/plain" http://localhost:3000/api/v1/12345/time
+
+     Time span of dataset: Begin 1976, End 1994
+
+### JSON
+	curl -H "Accept: application/json" http://localhost:3000/api/v1/12345/time
+
+	{"beginDate":{"calendarDate":"1976"},"endDate":{"calendarDate":"1994"}}⏎
+	
+## License
+
+### Default
+    curl http://localhost:3000/api/v1/12345/license
+    
+	The license of this dataset is Creative Commons Attribution (CC-BY) 4.0 License, http://creativecommons.org/licenses/by/4.0/legalcode⏎ 
+
+
+### Plain text
+     curl -H "Accept: text/plain" http://localhost:3000/api/v1/12345/license
+
+	The license of this dataset is Creative Commons Attribution (CC-BY) 4.0 License, http://creativecommons.org/licenses/by/4.0/legalcode⏎
+
+### JSON
+	curl -H "Accept: application/json" http://localhost:3000/api/v1/12345/license
+
+	{"para":{"ulink":{"url":"http://creativecommons.org/licenses/by/4.0/legalcode","citetitle":"Creative Commons Attribution (CC-BY) 4.0 License"}}}
+
+
