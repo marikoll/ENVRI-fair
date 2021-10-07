@@ -102,6 +102,11 @@ app.get('/api/v1/:datasetId/license', function(req,res){
     });
 });
 
+// include html page
+app.get('/', (req, res) => {        //get requests to the root ("/") will route here
+    res.sendFile('server.html', {root: __dirname});      //server responds by sending the index.html file to the client's browser
+                                                        //the .sendFile method needs the absolute path to the file, see: https://expressjs.com/en/4x/api.html#res.sendFile
+});
 
 // Start the app listening on defined port
 app.listen(port, () => logger.log('info', "API running  on port ${port}!"));
