@@ -45,6 +45,10 @@ const jsonObj=JSON.parse(xmlParser.toJson(xmlData));
 
 
 // Set up a webapp. Q new needed or not?
+// Note on error handling:
+// Express has built in error handling by default.
+// Only if asynchronous functions are used must errors be passed explicitly.
+
 var app = new express();
 
 // Apply default http headers for improved security
@@ -63,12 +67,15 @@ app.use(limiter);
 app.get('/api/v1/:datasetId/author', function(req,res){
     // TODO add search for datasetId  in req.params["datasetId"]
     // Allow content negotiation for text/plain and application/json
+    logger.log('info', `Author of ${req.params["datasetId"]} requested by ${req.socket.remoteAddress}`)
     res.format({
         text: () => {
+	    logger.log('debug', 'text requested')
             res.send(jsonObj["eml:eml"]["dataset"]["creator"]["individualName"]["givenName"] + " " +
             jsonObj["eml:eml"]["dataset"]["creator"]["individualName"]["surName"]);
         },
         json: () => {
+	    logger.log('debug', 'JSON requested')
             res.send(JSON.stringify(jsonObj["eml:eml"]["dataset"]["creator"]["individualName"]));
         }
     });
@@ -76,13 +83,16 @@ app.get('/api/v1/:datasetId/author', function(req,res){
 
 // Get Time
 app.get('/api/v1/:datasetId/time', function(req,res){
+    logger.log('info', `Time of ${req.params["datasetId"]} requested by ${req.socket.remoteAddress}`)
     res.format({
         text: () => {
+	    logger.log('debug', 'text requested')
 	    var begin = jsonObj["eml:eml"]["dataset"]["coverage"]["temporalCoverage"]["rangeOfDates"]["beginDate"]["calendarDate"];
 	    var end = jsonObj["eml:eml"]["dataset"]["coverage"]["temporalCoverage"]["rangeOfDates"]["endDate"]["calendarDate"];
             res.send(`Time span of dataset: Begin ${begin}, End ${end}`);
         },
         json: () => {
+	    logger.log('debug', 'JSON requested')
             res.send(JSON.stringify(jsonObj["eml:eml"]["dataset"]["coverage"]["temporalCoverage"]["rangeOfDates"]) );
         }
     });
@@ -90,13 +100,16 @@ app.get('/api/v1/:datasetId/time', function(req,res){
 
 // Get License
 app.get('/api/v1/:datasetId/license', function(req,res){
+    logger.log('info', `License of ${req.params["datasetId"]} requested by ${req.socket.remoteAddress}`);
     res.format({
         text: () => {
+	    logger.log('debug', 'text requested')
 	    licUrl = encodeURI(jsonObj["eml:eml"]["dataset"]["intellectualRights"]["para"]["ulink"]["url"]);
 	    licName = jsonObj["eml:eml"]["dataset"]["intellectualRights"]["para"]["ulink"]["citetitle"];
 	    res.send(`The license of this dataset is ${licName}, ${licUrl}`);
         },
         json: () => {
+	    logger.log('debug', 'JSON requested')
             res.send(JSON.stringify(jsonObj["eml:eml"]["dataset"]["intellectualRights"]) );
         }
     });
@@ -104,9 +117,10 @@ app.get('/api/v1/:datasetId/license', function(req,res){
 
 // include html page
 app.get('/', (req, res) => {        //get requests to the root ("/") will route here
+    logger.log('debug', 'Front page requested')
     res.sendFile('server.html', {root: __dirname});      //server responds by sending the index.html file to the client's browser
                                                         //the .sendFile method needs the absolute path to the file, see: https://expressjs.com/en/4x/api.html#res.sendFile
 });
 
 // Start the app listening on defined port
-app.listen(port, () => logger.log('info', "API running  on port ${port}!"));
+app.listen(port, () => logger.log('info', `API running  on port ${port}!`));
