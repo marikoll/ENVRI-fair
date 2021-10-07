@@ -1,4 +1,4 @@
-*.xmls
+*.xml
 package.json
 package-lock.json
 node-modules/
