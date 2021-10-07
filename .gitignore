@@ -1,3 +1,4 @@
+logfile.log
 *.xml
 package.json
 package-lock.json

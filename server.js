@@ -1,6 +1,31 @@
 // This is the top level app
 // Config
 const port = 3000;
+//
+// Import and format logger
+const winston = require('winston');
+
+const logger = winston.createLogger({
+  level: 'info',
+  format: winston.format.json(),
+  defaultMeta: { service: 'api-v1' },
+  transports: [
+    new winston.transports.Console(),
+    new winston.transports.File({ filename: 'logfile.log' }),
+  ],
+});
+
+//
+// If we're not in production then log to the `console` with the format:
+// `${info.level}: ${info.message} JSON.stringify({ ...rest }) `
+//
+if (process.env.NODE_ENV !== 'production') {
+  logger.add(new winston.transports.Console({
+    format: winston.format.simple(),
+  }));
+}
+
+winston.add(logger);
 
 // Load installed modules (npm install). Q: difference between const and var?
 const fs     = require('fs');
@@ -13,7 +38,7 @@ const helmet = require('helmet')
 // e.g. MongoDB that stores JSON
 // Here we just read an XML file and parse it to JSON.
 var filename = __dirname+'/eml_aegean_plychaetes.xml';
-console.log("Parsing " + filename);
+logger.log('info', "Parsing " + filename);
 const xmlData = fs.readFileSync(filename);
 // Parse to JSON object
 const jsonObj=JSON.parse(xmlParser.toJson(xmlData));
@@ -65,4 +90,4 @@ app.get('/api/v1/:datasetId/time', function(req,res){
 
 
 // Start the app listening on defined port
-app.listen(port, () => console.log(`API running  on port ${port}!`));
+app.listen(port, () => logger.log('info', "API running  on port ${port}!"));
