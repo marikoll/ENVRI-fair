@@ -1,0 +1,31 @@
+{
+  "name": "envri-fair",
+  "version": "1.0.0",
+  "description": "FAIR school project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/marikoll/ENVRI-fair.git"
+  },
+  "keywords": [
+    "javascript"
+  ],
+  "author": "Group 3",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/marikoll/ENVRI-fair/issues"
+  },
+  "homepage": "https://github.com/marikoll/ENVRI-fair#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "express-rate-limit": "^5.4.1",
+    "fs": "^0.0.1-security",
+    "helmet": "^4.6.0",
+    "nodemon": "^2.0.13",
+    "xml2js": "^0.4.23",
+    "xml2json": "^0.12.0"
+  }
+}
