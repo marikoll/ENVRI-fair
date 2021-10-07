@@ -72,3 +72,9 @@ should preferraby run behind a proxy (Apache or Nginx).
 		operations on it.
 - Rate of queries should be limited so as to mitigate DDoS attacks
 - Operations should be logged
+
+# Deployment
+
+## Dependencies of the app
+- express: npm install --save express
+ 
