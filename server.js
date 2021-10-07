@@ -33,6 +33,7 @@ const xmlParser = require("xml2json");
 const express = require("express");
 const rateLimit = require("express-rate-limit");
 const helmet = require('helmet');
+const jwt = require("jsonwebtoken");
 
 // In practice this would connect to a database.
 // e.g. MongoDB that stores JSON
@@ -63,8 +64,10 @@ app.use(limiter);
 
 
 // Set up routes for GET requests
+
 // Get Author name
-app.get('/api/v1/:datasetId/author', function(req,res){
+app.get('/api/v1/:datasetId/author', (req,res) => {
+    logger.log('info', `Author of ${req.params["datasetId"]} requested by ${req.socket.remoteAddress}`)
     // TODO add search for datasetId  in req.params["datasetId"]
     // Allow content negotiation for text/plain and application/json
     logger.log('info', `Author of ${req.params["datasetId"]} requested by ${req.socket.remoteAddress}`)
@@ -82,7 +85,7 @@ app.get('/api/v1/:datasetId/author', function(req,res){
 });
 
 // Get Time
-app.get('/api/v1/:datasetId/time', function(req,res){
+app.get('/api/v1/:datasetId/time', (req,res) => {
     logger.log('info', `Time of ${req.params["datasetId"]} requested by ${req.socket.remoteAddress}`)
     res.format({
         text: () => {
@@ -99,7 +102,7 @@ app.get('/api/v1/:datasetId/time', function(req,res){
 });
 
 // Get License
-app.get('/api/v1/:datasetId/license', function(req,res){
+app.get('/api/v1/:datasetId/license', (req,res) => {
     logger.log('info', `License of ${req.params["datasetId"]} requested by ${req.socket.remoteAddress}`);
     res.format({
         text: () => {
