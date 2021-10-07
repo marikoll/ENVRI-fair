@@ -4,7 +4,8 @@
   "description": "FAIR school project",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
   },
   "repository": {
     "type": "git",
@@ -25,6 +26,7 @@
     "fs": "^0.0.1-security",
     "helmet": "^4.6.0",
     "nodemon": "^2.0.13",
+    "winston": "^3.3.3",
     "xml2js": "^0.4.23",
     "xml2json": "^0.12.0"
   }

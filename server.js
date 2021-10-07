@@ -109,4 +109,4 @@ app.get('/', (req, res) => {        //get requests to the root ("/") will route 
 });
 
 // Start the app listening on defined port
-app.listen(port, () => logger.log('info', "API running  on port ${port}!"));
+app.listen(port, () => logger.log('info', "API running on port ${port}"));
