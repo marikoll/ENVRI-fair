@@ -32,7 +32,7 @@ const fs     = require('fs');
 const xmlParser = require("xml2json");
 const express = require("express");
 const rateLimit = require("express-rate-limit");
-const helmet = require('helmet')
+const helmet = require('helmet');
 
 // In practice this would connect to a database.
 // e.g. MongoDB that stores JSON
@@ -48,14 +48,14 @@ const jsonObj=JSON.parse(xmlParser.toJson(xmlData));
 var app = new express();
 
 // Apply default http headers for improved security
-app.use(helmet())
+app.use(helmet());
 
 // Limit requests
 const limiter = rateLimit({
     windowMs: 10 * 60 * 1000, //limit per 10 min
     max: 100
-})
-app.use(limiter)
+});
+app.use(limiter);
 
 
 // Set up routes for GET requests
@@ -78,12 +78,26 @@ app.get('/api/v1/:datasetId/author', function(req,res){
 app.get('/api/v1/:datasetId/time', function(req,res){
     res.format({
         text: () => {
-	    var begin = jsonObj["eml:eml"]["dataset"]["coverage"]["temporalCoverage"]["rangeOfDates"]["beginDate"]["calendarDate"]
-	    var end = jsonObj["eml:eml"]["dataset"]["coverage"]["temporalCoverage"]["rangeOfDates"]["endDate"]["calendarDate"]
+	    var begin = jsonObj["eml:eml"]["dataset"]["coverage"]["temporalCoverage"]["rangeOfDates"]["beginDate"]["calendarDate"];
+	    var end = jsonObj["eml:eml"]["dataset"]["coverage"]["temporalCoverage"]["rangeOfDates"]["endDate"]["calendarDate"];
             res.send(`Time span of dataset: Begin ${begin}, End ${end}`);
         },
         json: () => {
             res.send(JSON.stringify(jsonObj["eml:eml"]["dataset"]["coverage"]["temporalCoverage"]["rangeOfDates"]) );
+        }
+    });
+});
+
+// Get License
+app.get('/api/v1/:datasetId/license', function(req,res){
+    res.format({
+        text: () => {
+	    licUrl = encodeURI(jsonObj["eml:eml"]["dataset"]["intellectualRights"]["para"]["ulink"]["url"]);
+	    licName = jsonObj["eml:eml"]["dataset"]["intellectualRights"]["para"]["ulink"]["citetitle"];
+	    res.send(`The license of this dataset is ${licName}, ${licUrl}`);
+        },
+        json: () => {
+            res.send(JSON.stringify(jsonObj["eml:eml"]["dataset"]["intellectualRights"]) );
         }
     });
 });
