@@ -66,7 +66,6 @@ should preferraby run behind a proxy (Apache or Nginx).
 
 ## Security considerations
 - The service should not be able to modify any data repository
-- Users of the service should authenticate
 - The service will return URLs so care has to be taken not to allow cross site scripting,
 		that is, injecting code into URLs that would redirect to another service and perform
 		operations on it.
