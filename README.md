@@ -76,5 +76,7 @@ should preferraby run behind a proxy (Apache or Nginx).
 # Deployment
 
 ## Dependencies of the app
-- express: npm install --save express
- 
+- express:             npm install --save express
+- express-rate-limit   npm install --save express-rate-limit
+- helmet:              npm install --save helmet
+- xml2json             npm install --save xml2json
